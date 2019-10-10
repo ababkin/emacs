@@ -20,6 +20,19 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; QUELPA
+(if (require 'quelpa nil t)
+;;  (quelpa-self-upgrade) - This slows the startup down
+  (with-temp-buffer
+    (url-insert-file-contents "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
+    (eval-buffer)))
+
+(quelpa
+ '(quelpa-use-package
+   :fetcher git
+   :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+(require 'quelpa-use-package)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -289,6 +302,10 @@
    projectile-globally-ignored-directories '(".git")
    projectile-globally-ignored-files '("TAGS" "*.min.js"))
   :config
+  (projectile-register-project-type 'hpack '("package.yaml")
+                    :compile "si ."
+                    :test "st ."
+  )
   (add-hook 'projectile-grep-finished-hook
             ;; not going to the first hit?
             (lambda () (pop-to-buffer next-error-last-buffer)))
@@ -321,6 +338,18 @@
   (auto-insert-mode 1)
   (yatemplate-fill-alist))
 
+;; Evil commentary
+(use-package evil-commentary
+  :ensure t
+)
+(evil-commentary-mode)
+
+(use-package evil-replace-with-register
+  :quelpa (evil-replace-with-register :fetcher github :repo "emacsmirror/evil-replace-with-register")
+)
+;; change default key bindings (if you want) HERE
+(setq evil-replace-with-register-key (kbd "t"))
+(evil-replace-with-register-install)
 
 ;; Smartparens
 (use-package smartparens

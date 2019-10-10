@@ -1,14 +1,16 @@
 ;;; -*- coding: utf-8 -*-
-(("/Users/symbiont/capybara/"
+(("/Users/symbiont/.doom.d/config.el" . 2691)
+ ("/Users/symbiont/.emacs.d/elpa/evil-replace-with-register-20170713.925/evil-replace-with-register-autoloads.el" . 805)
+ ("/Users/symbiont/capybara/"
   (dired-filename . "/Users/symbiont/capybara/sym-cli"))
  ("/Users/symbiont/capybara/sym-cli/"
   (dired-filename . "/Users/symbiont/capybara/sym-cli/cli"))
  ("/Users/symbiont/capybara/sym-cli/cli/"
   (dired-filename . "/Users/symbiont/capybara/sym-cli/cli/Main.hs"))
- ("/Users/symbiont/symbiont-node/src/capybara/sym-cli/cli/Main.hs" . 632)
- ("/Users/symbiont/.doom.d/init.el" . 115)
+ ("/Users/symbiont/symbiont-node/src/capybara/sym-cli/cli/Main.hs" . 1458)
+ ("/Users/symbiont/.emacs.d/elpa/evil-commentary-2.1.1/evil-commentary-autoloads.el" . 1367)
+ ("/Users/symbiont/.doom.d/init.el" . 116)
  ("/Users/symbiont/.emacs.d/init.el" . 1034)
- ("/Users/symbiont/.doom.d/config.el" . 2499)
  ("/Users/symbiont/symbiont-node/src/capybara/sym-cli/cli/"
   (dired-filename . "/Users/symbiont/symbiont-node/src/capybara/sym-cli/cli/Main.hs"))
  ("/Users/symbiont/.emacs.d/elpa/rainbow-delimiters-2.1.3/rainbow-delimiters-autoloads.el" . 882)
