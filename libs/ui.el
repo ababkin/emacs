@@ -8,7 +8,7 @@
 (use-package doom-themes
   :ensure t
   :config
-  (load-theme 'doom-snazzy t))
+  (load-theme 'doom-one t))
 
 ;; Fancy titlebar for MacOS
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -16,12 +16,6 @@
 (setq ns-use-proxy-icon  nil)
 (setq frame-title-format nil)
 
-;; wrap lines
-(setq-default truncate-lines nil)
-
-
-;; No, we do not need the splash screen
-(setq inhibit-default-init t)
 
 
 ;; Global settings (defaults)
@@ -29,12 +23,8 @@
       doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
 
-
 ;; Fonts
-(setq doom-font (font-spec :family "Fira Mono" :size 16))
+(setq doom-font (font-spec :family "Fira Mono" :size 18))
 (setq doom-big-font (font-spec :family "Fira Mono" :size 22))
-
-
-
 
 (provide 'ui)
