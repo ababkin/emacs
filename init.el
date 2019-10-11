@@ -3,37 +3,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; User Site Local
 ; (load (expand-file-name "local-preinit.el" user-emacs-directory) 'no-error)
-(unless (boundp 'package--initialized)
-  ;; don't set gnu/org/melpa if the site-local or local-preinit have
-  ;; done so (e.g. firewalled corporate environments)
-  (require 'package)
-  (setq
-   package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                      ;;("org" . "http://orgmode.org/elpa/")
-                      ("melpa-stable" . "http://stable.melpa.org/packages/")
-                      ("melpa" . "http://melpa.org/packages/"))
-   package-archive-priorities '(("melpa-stable" . 1))))
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
 
-;; QUELPA
-(if (require 'quelpa nil t)
-;;  (quelpa-self-upgrade) - This slows the startup down
-  (with-temp-buffer
-    (url-insert-file-contents "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
-    (eval-buffer)))
+;; Straight
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(quelpa
- '(quelpa-use-package
-   :fetcher git
-   :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
-(require 'quelpa-use-package)
-
-
+(setq 
+  straight-use-package-by-default t)
+(straight-use-package 'use-package)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; This section is for global settings for built-in emacs parameters
@@ -165,12 +152,10 @@
 
 ;; Vim mode
 (use-package evil
-  :ensure t
   :config
   (evil-mode 1))
 
 (use-package evil-goggles
-  :ensure t
   :config
   (evil-goggles-mode)
   ;; optionally use diff-mode's faces; as a result, deleted text
@@ -236,7 +221,6 @@
 
 ;; Helm
 (use-package helm
-  :ensure t
   :init
   (setq helm-mode-fuzzy-match t)
   (setq helm-completion-in-region-fuzzy-match t)
@@ -244,7 +228,6 @@
 
 ;; Which Key
 (use-package which-key
-  :ensure t
   :init
   (setq which-key-separator " ")
   (setq which-key-prefix-prefix "+")
@@ -253,7 +236,6 @@
 
 ;; Custom keybinding
 (use-package general
-  :ensure t
   :config (general-define-key
   :states '(normal visual insert emacs)
   :prefix "SPC"
@@ -298,7 +280,6 @@
 
 ;; Projectile
 (use-package projectile
-  :ensure t
   :demand
   ;; nice to have it on the modeline
   :init
@@ -329,7 +310,6 @@
 
 ;; YASnippet
 (use-package yasnippet
-  :ensure t
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :bind ("s-<tab>" . yas-expand)
@@ -346,13 +326,11 @@
   (yatemplate-fill-alist))
 
 ;; Evil commentary
-(use-package evil-commentary
-  :ensure t
-)
+(use-package evil-commentary)
 (evil-commentary-mode)
 
 (use-package evil-replace-with-register
-  :quelpa (evil-replace-with-register :fetcher github :repo "emacsmirror/evil-replace-with-register")
+  :straight (evil-replace-with-register :host github :repo "emacsmirror/evil-replace-with-register")
 )
 ;; change default key bindings (if you want) HERE
 (setq evil-replace-with-register-key (kbd "t"))
@@ -393,14 +371,13 @@
 ;; TNG
 (use-package haskell-tng-mode
   ;; these 3 lines are only needed for local checkouts
-  :ensure nil
-  :load-path "~/work/haskell-tng.el"
+  ;; :load-path "~/work/haskell-tng.el"
+  :straight (haskell-tng :type git :host gitlab :repo "tseenshe/haskell-tng.el" :branch tng)
   :mode ("\\.hs\\'" . haskell-tng-mode)
-  
   :config
   (require 'haskell-tng-extra)
   (require 'haskell-tng-extra-projectile)
-  ;; (require 'haskell-tng-extra-smartparens)
+  (require 'haskell-tng-extra-smartparens)
   (require 'haskell-tng-extra-yasnippet)
   (require 'haskell-tng-hsinspect)
   (setq haskell-tng--compile-history
