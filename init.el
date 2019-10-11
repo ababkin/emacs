@@ -118,6 +118,10 @@
 ;; WORKAROUND http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16449
 (add-hook 'nxml-mode-hook (lambda () (flyspell-mode -1)))
 
+
+(add-to-list 'load-path "~/.emacs.d/libs")
+(require 'ui)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; This section is for global modes that should be loaded in order to
 ;; make them immediately available.
@@ -142,13 +146,6 @@
   (ido-mode 1)
   (ido-everywhere t)
   (flx-ido-mode 1))
-
-
-
-
-(add-to-list 'load-path "~/.emacs.d/libs")
-(require 'ui)
-
 
 ;; Vim mode
 (use-package evil
@@ -217,14 +214,13 @@
        (looking-at "\\([[:upper:]]+\\|https?\\)\\b")))))
 
 
-
-
 ;; Helm
 (use-package helm
   :init
   (setq helm-mode-fuzzy-match t)
   (setq helm-completion-in-region-fuzzy-match t)
   (setq helm-candidate-number-list 50))
+
 
 ;; Which Key
 (use-package which-key
@@ -233,6 +229,7 @@
   (setq which-key-prefix-prefix "+")
   :config
   (which-key-mode))
+
 
 ;; Custom keybinding
 (use-package general
@@ -278,6 +275,7 @@
 (global-set-key (kbd "C-s-J") 'sp-backward-down-sexp)
 (global-set-key (kbd "C-s-K") 'sp-backward-up-sexp)
 
+
 ;; Projectile
 (use-package projectile
   :demand
@@ -306,6 +304,17 @@
   (("s-f" . projectile-find-file)
    ("s-F" . projectile-ag)
    ("M-." . projectile-find-tag)))
+
+(use-package helm-ag)
+
+(use-package helm-projectile)
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(setq projectile-switch-project-action 'helm-projectile)
+(helm-projectile-on)
+
+
+(use-package org)
 
 
 ;; YASnippet
@@ -340,17 +349,19 @@
 (use-package smartparens
   :diminish smartparens-mode
   :commands
-  smartparens-mode
+  smartparens-strict-mode
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
   (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
   (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
   (sp-pair "{" "}" :wrap "C-{")
+  (sp-pair "'" "'" :actions nil)
+
 
   ;; nice whitespace / indentation when creating statements
-  (sp-local-pair '(c-mode java-mode) "(" nil :post-handlers '(("||\n[i]" "RET")))
-  (sp-local-pair '(c-mode java-mode) "{" nil :post-handlers '(("||\n[i]" "RET")))
+  ;; (sp-local-pair '(c-mode java-mode) "(" nil :post-handlers '(("||\n[i]" "RET")))
+  ;; (sp-local-pair '(c-mode java-mode) "{" nil :post-handlers '(("||\n[i]" "RET")))
 
   ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
   (bind-key "C-<left>" nil smartparens-mode-map)
@@ -367,6 +378,26 @@
   (bind-key "s-<up>" 'sp-backward-up-sexp smartparens-mode-map)
   (bind-key "s-<down>" 'sp-down-sexp smartparens-mode-map)
 )
+
+
+
+(use-package evil-smartparens)
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+(provide 'smartparens-setup)
+(setq sp-show-pair-from-inside t)
+
+;; (use-package evil-smartparens-keybindings
+;;   :straight (evil-smartparens-keybindings :host github :repo "lxol/evil-smartparens-keybindings"))
+
+(smartparens-global-mode t)
+;; (evil-smartparens-keybindings-mode t)
+(show-smartparens-global-mode t)
+(smartparens-strict-mode t)
+ 
+(add-hook 'prog-mode-hook #'evil-smartparens-mode)
+(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'org-mode-hook #'evil-smartparens-mode)
+(add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
 
 ;; TNG
 (use-package haskell-tng-mode
