@@ -16,14 +16,8 @@
 (setq frame-title-format nil)
 
 
+(add-to-list 'default-frame-alist
+             '(font . "Fira Mono-18"))
 
-;; Global settings (defaults)
-(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-      doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-
-;; Fonts
-(setq doom-font (font-spec :family "Fira Mono" :size 18))
-(setq doom-big-font (font-spec :family "Fira Mono" :size 22))
 
 (provide 'ui)

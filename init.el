@@ -380,26 +380,28 @@
 )
 
 
+;; (use-package evil-smartparens)
+;; (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+;; (provide 'smartparens-setup)
+;; (setq sp-show-pair-from-inside t)
 
-(use-package evil-smartparens)
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
-(provide 'smartparens-setup)
-(setq sp-show-pair-from-inside t)
+(use-package evil-cleverparens)
+(add-hook 'smartparens-enabled-hook #'evil-cleverparens-mode)
 
 ;; (use-package evil-smartparens-keybindings
 ;;   :straight (evil-smartparens-keybindings :host github :repo "lxol/evil-smartparens-keybindings"))
 
-(smartparens-global-mode t)
-;; (evil-smartparens-keybindings-mode t)
-(show-smartparens-global-mode t)
-(smartparens-strict-mode t)
+;; (smartparens-global-mode t)
+;; ;; (evil-smartparens-keybindings-mode t)
+;; (show-smartparens-global-mode t)
+;; (smartparens-strict-mode t)
  
-(add-hook 'prog-mode-hook #'evil-smartparens-mode)
-(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-(add-hook 'org-mode-hook #'evil-smartparens-mode)
-(add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
+;; (add-hook 'prog-mode-hook #'evil-smartparens-mode)
+;; (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+;; (add-hook 'org-mode-hook #'evil-smartparens-mode)
+;; (add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
 
-;; TNG
+;; tng
 (use-package haskell-tng-mode
   ;; these 3 lines are only needed for local checkouts
   ;; :load-path "~/work/haskell-tng.el"
@@ -439,6 +441,8 @@
    ("C-c C-r f" . haskell-tng-ormolu)
   )
  )
+;; build stack2cabal from source (in gitlab)
+;; run haskell-tng-hsinspect to generate the index (may need to manually copy the shell script file from the repo)
 
 (add-hook
  'haskell-tng-mode-hook
@@ -454,3 +458,4 @@
   (when (eq major-mode 'haskell-tng-mode)
     (haskell-tng-ormolu)))
 (add-hook 'after-save-hook 'ormulu-hook)
+
