@@ -264,6 +264,7 @@
 
 ;; wrap lines
 (setq-default truncate-lines nil)
+(global-visual-line-mode 1)
 
 ;; cycle through frames
 (global-set-key (kbd "s-$") 'other-frame)
@@ -358,11 +359,6 @@
   (sp-pair "{" "}" :wrap "C-{")
   (sp-pair "'" "'" :actions nil)
 
-
-  ;; nice whitespace / indentation when creating statements
-  ;; (sp-local-pair '(c-mode java-mode) "(" nil :post-handlers '(("||\n[i]" "RET")))
-  ;; (sp-local-pair '(c-mode java-mode) "{" nil :post-handlers '(("||\n[i]" "RET")))
-
   ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
   (bind-key "C-<left>" nil smartparens-mode-map)
   (bind-key "C-<right>" nil smartparens-mode-map)
@@ -380,26 +376,28 @@
 )
 
 
-;; (use-package evil-smartparens)
-;; (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
-;; (provide 'smartparens-setup)
-;; (setq sp-show-pair-from-inside t)
+(use-package evil-smartparens)
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+(provide 'smartparens-setup)
+(setq sp-show-pair-from-inside t)
 
-(use-package evil-cleverparens)
-(add-hook 'smartparens-enabled-hook #'evil-cleverparens-mode)
+;; (use-package evil-cleverparens)
+;; (add-hook 'smartparens-enabled-hook #'evil-cleverparens-mode)
 
 ;; (use-package evil-smartparens-keybindings
 ;;   :straight (evil-smartparens-keybindings :host github :repo "lxol/evil-smartparens-keybindings"))
 
-;; (smartparens-global-mode t)
-;; ;; (evil-smartparens-keybindings-mode t)
-;; (show-smartparens-global-mode t)
-;; (smartparens-strict-mode t)
+(smartparens-global-mode t)
+;; (evil-smartparens-keybindings-mode t)
+(show-smartparens-global-mode t)
+(smartparens-strict-mode t)
  
-;; (add-hook 'prog-mode-hook #'evil-smartparens-mode)
-;; (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-;; (add-hook 'org-mode-hook #'evil-smartparens-mode)
-;; (add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'prog-mode-hook #'evil-smartparens-mode)
+(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'org-mode-hook #'evil-smartparens-mode)
+(add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
+
+(use-package company)
 
 ;; tng
 (use-package haskell-tng-mode
@@ -412,10 +410,11 @@
   (require 'haskell-tng-extra-projectile)
   (require 'haskell-tng-extra-smartparens)
   (require 'haskell-tng-extra-yasnippet)
+  (require 'haskell-tng-extra-company)
   (require 'haskell-tng-hsinspect)
   (setq haskell-tng--compile-history
-        '("stack test sym-check -j4 --fast --no-run-tests --ghc-options='-Wwarn'"
-          "stack test sym-check -j4 --fast --ghc-options='-Wwarn'"))
+        '("stack install sym-cli -j4 --fast --no-run-tests --ghc-options='-Wwarn'"
+          "stack test sym-cli -j4 --fast --ghc-options='-Wwarn'"))
   (setq-default haskell-tng--compile-alt "stack clean")
   :bind
   (:map
